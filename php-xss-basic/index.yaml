@@ -1,0 +1,23 @@
+vaersion: 1
+title: XSS対策の基本
+description: PHPにおけるXSSの対策の基本
+difficulty: beginner
+language: php
+tag:
+    - php
+    - xss
+text: text/problem.md
+answer_text: text/answer.md
+files:
+    - www/index.php
+test:
+    - cmd: docker-compose run php-fpm /var/www/html/phpunit --group gt-escape /var/www/html/check.php
+      message: ">が&gt;に変換されていません"
+    - cmd: docker-compose run php-fpm /var/www/html/phpunit --group lt-escape /var/www/html/check.php
+      message: "<が&lt;に変換されていません"
+    - cmd: docker-compose run php-fpm /var/www/html/phpunit --group amp-escape /var/www/html/check.php
+      message: "&が&amp;に変換されていません"
+    - cmd: docker-compose run php-fpm /var/www/html/phpunit --group quote-escape /var/www/html/check.php
+      message: "\"が&quot;に変換されていません"
+    - cmd: docker-compose run php-fpm /var/www/html/phpunit --group singlequote-escape /var/www/html/check.php
+      message: "'が&#039;に変換されていません"

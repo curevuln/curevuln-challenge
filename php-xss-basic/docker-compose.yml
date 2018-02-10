@@ -1,0 +1,23 @@
+version: '3'
+services:
+    mysql:
+        image: mysql
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    php-fpm:
+        build:
+            context: "."
+            dockerfile: "php-fpm/Dockerfile"
+        volumes:
+            - "./www:/var/www/html"
+        depends_on:
+            - "mysql"
+    nginx:
+        image: "nginx:alpine"
+        volumes:
+            - "./www:/var/www"
+            - "./nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
+        ports:
+            - "80:80"
+        depends_on:
+            - "php-fpm"
